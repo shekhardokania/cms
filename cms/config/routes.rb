@@ -1,9 +1,25 @@
 Cms::Application.routes.draw do
+  get "sessions/new"
+  get "sessions/destroy"
+  resources :users
+  resources :sessions
+
+  get "home/about"
+  get "home/index"
+  get "home/faq"
+  get "home/testimonial"
+  get "home/pricing"
+  resources :patients
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  # root 'welcome#index'
+  root 'home#index'
+
+  get "login"   => "sessions#new",        :as => "login"
+  get "logout"  => "sessions#destroy",    :as => "logout"
+  get "signup"  => "users#new",           :as => "signup"
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

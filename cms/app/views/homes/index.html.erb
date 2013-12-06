@@ -1,0 +1,12 @@
+.jumbotron{style: "margin-top:200px"}
+.h1 Welcome to Red !
+%br
+.h4 Test line H4
+%br
+= link_to 'Sign Up', login_path, :class => 'btn btn-large btn-primary'
+= link_to 'Login', login_path, :class => 'btn btn-large btn-success'
+- if current_user
+= link_to 'Logout', logout_path
+%br
+= link_to "About", about_path
+= link_to "Test", test_path

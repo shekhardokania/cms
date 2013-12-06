@@ -1,0 +1,14 @@
+<div class="jumbotron"style= "margin-top:200px">
+<h1>Welcome to CMS !</h1>
+<br>
+<h4>HEY!</h4>
+<br>
+<%= link_to 'Sign Up',new_user_path, :class => 'btn btn-large btn-primary' %>
+<%= link_to 'Login', login_path, :class => 'btn btn-large btn-success'%>
+<% if current_user %>
+    <%= link_to 'Logout', logout_path %>
+<% end %>
+<br>
+<%= link_to "About", "" %>
+<%= link_to "Test", ""  %>
+</div>
