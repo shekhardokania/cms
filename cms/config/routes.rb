@@ -22,6 +22,7 @@ Cms::Application.routes.draw do
   get "signup"  => "users#new",           :as => "signup"
   get "get-appointments" => "appointments#get_appointments"
   get 'get-patients' => "appointments#patient_name_for_autocomplete"
+  post 'reschedule-appointment' => "appointments#reschedule"
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

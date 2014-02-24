@@ -24,6 +24,7 @@ class UsersController < ApplicationController
       redirect_to :back and return
     end
     @user = User.new(user_params)
+    @user.set_role
     respond_to do |format|
       if @user.save
         auto_login(@user)

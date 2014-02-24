@@ -6,7 +6,6 @@ class CreatePatients < ActiveRecord::Migration
       t.integer :age
       t.string :sex
       t.string :phone
-      t.integer :doctor_id
       t.timestamps
     end
   end

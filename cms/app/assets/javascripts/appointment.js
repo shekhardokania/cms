@@ -1,19 +1,79 @@
 // Place all the behaviors and hooks related to the matching controller here.
 // All this logic will automatically be available in application.js.
+function getDataHover(event){
+    console.log(event);
+    return "<h2>" + event.title + "</h2>"
+}
+
+function getDataClick(event){
+    console.log(event);
+    return "<h2>" + event.title + "</h2>"
+}
 
 function clickEvent(calEvent, jsEvent, view) {
 
-    alert('Event: ' + calEvent.title);
-
-    // change the border color just for fun
-    $(this).css('border-color', 'red');
 
 }
 
 function mouseOver(event, jsEvent, view) {
-    //alert('Event: ' + event.title);
+    $(this).popover({
+        title: event.type,
+        placement: 'top',
+        trigger: 'manual',
+        delay: { show: 200, hide: 100 },
+        animation: true,
+        container: '#calendar',
+        html: true,
+        content: function(){
+            return getDataHover(event);
+        }
+    });
+    $(this).popover('show');
     // change the border color just for fun
     $(this).css('border-color', 'red');
+}
+
+function mouseOut(event, jsEvent, view) {
+
+    $(this).popover('hide');
+    // change the border color just for fun
+    $(this).css('border-color', 'default');
+}
+
+function eventReschedule (event,dayDelta,minuteDelta,allDay,revertFunc) {
+
+    $.post( "/reschedule-appointment", { event: event, day_delta: dayDelta, min_delta: minuteDelta, allday: allDay })
+        .done(function( data ) {
+            if(data.success) {
+                alert( "Event updated successfully.");
+            }
+            else{
+                alert("Event updation failed.");
+                revertFunc();
+            }
+        })
+        .error(function(){
+            alert("Event updation failed.");
+            revertFunc();
+         });
+}
+
+function eventResize (event,dayDelta,minuteDelta,revertFunc) {
+
+    $.post( "/reschedule-appointment", { event: event, day_delta: dayDelta, min_delta: minuteDelta })
+        .done(function( data ) {
+            if(data.success) {
+                alert( "Event updated successfully.");
+            }
+            else{
+                alert("Event updation failed.");
+                revertFunc();
+            }
+        })
+        .error(function(){
+            alert("Event updation failed.");
+            revertFunc();
+        });
 }
 
 var ready;
@@ -29,7 +89,7 @@ ready = function() {
             $("#patient_id").val(ui.item.id);
         },
 
-        html: true,
+        html: true
     });
 
     $( "#patient_name").autocomplete( "option", "appendTo", "#aptCreateModal" );
@@ -62,6 +122,12 @@ ready = function() {
         eventClick: clickEvent,
 
         eventMouseover: mouseOver,
+
+        eventMouseout: mouseOut,
+
+        eventDrop: eventReschedule,
+
+        eventResize: eventResize,
 
         events: '/get-appointments'
     });
