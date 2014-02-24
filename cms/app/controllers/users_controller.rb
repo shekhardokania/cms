@@ -2,24 +2,32 @@ class UsersController < ApplicationController
   before_action :set_user, only: [:destroy]
   skip_before_filter :require_login, :only => [:new,:create]
 
-  # GET /users/1
-  # GET /users/1.json
+  # get /users/1
+  # get /users/1.json
   def show
   end
 
-  # GET /users/new
+  # get /users/new
   def new
-    @user = User.new
+    @user = user.new
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
 
-  # POST /users
-  # POST /users.json
+  # post /users
+  # post /users.json
   def create
+    if 1 != params[:t_and_c].to_i
+      flash[:error] = "please agree to the terms and condition"
+      redirect_to :back and return
+    end
     @user = User.new(user_params)
-
     respond_to do |format|
       if @user.save
-        format.html { redirect_to root_path, notice: 'User was successfully created.' }
+        auto_login(@user)
+        format.html { redirect_to appointments_path, notice: 'Welcome to clinic management system.' }
         format.json { render action: 'show', status: :created, location: @user }
       else
         format.html { render action: 'new' }
@@ -29,8 +37,8 @@ class UsersController < ApplicationController
   end
 
 
-  # DELETE /users/1
-  # DELETE /users/1.json
+  # delete /users/1
+  # delete /users/1.json
   def destroy
     @user.destroy
     respond_to do |format|
@@ -40,13 +48,13 @@ class UsersController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
+    # use callbacks to share common setup or constraints between actions.
     def set_user
-      @user = User.find(params[:id])
+      @user = user.find(params[:id])
     end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
+    # never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:email, :password, :password_confirmation)
+      params.require(:user).permit(:email, :password, :password_confirmation,:username)
     end
 end

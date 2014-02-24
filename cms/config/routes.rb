@@ -9,7 +9,7 @@ Cms::Application.routes.draw do
   get "home/faq"
   get "home/testimonial"
   get "home/pricing"
-  resources :patients
+  resources :patients,:appointments
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
@@ -20,6 +20,8 @@ Cms::Application.routes.draw do
   get "login"   => "sessions#new",        :as => "login"
   get "logout"  => "sessions#destroy",    :as => "logout"
   get "signup"  => "users#new",           :as => "signup"
+  get "get-appointments" => "appointments#get_appointments"
+  get 'get-patients' => "appointments#patient_name_for_autocomplete"
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

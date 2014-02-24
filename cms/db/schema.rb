@@ -11,12 +11,38 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131206170010) do
+ActiveRecord::Schema.define(version: 20140222153314) do
+
+  create_table "appointments", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "patient_id"
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.string   "title"
+    t.boolean  "allday"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "authentications", force: true do |t|
     t.integer  "user_id",    null: false
     t.string   "provider",   null: false
     t.string   "uid",        null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "clinics", force: true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "doctors", force: true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "medicines", force: true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -27,20 +53,24 @@ ActiveRecord::Schema.define(version: 20131206170010) do
     t.integer  "age"
     t.string   "sex"
     t.string   "phone"
+    t.integer  "doctor_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "prescriptions", force: true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "users", force: true do |t|
+    t.string   "username",         null: false
     t.string   "email"
     t.string   "crypted_password"
     t.string   "salt"
+    t.string   "role"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "remember_me_token"
-    t.datetime "remember_me_token_expires_at"
   end
-
-  add_index "users", ["remember_me_token"], name: "index_users_on_remember_me_token", using: :btree
 
 end

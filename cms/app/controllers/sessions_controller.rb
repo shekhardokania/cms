@@ -9,7 +9,7 @@ class SessionsController < ApplicationController
 
   def create
     if @user = login(params[:email], params[:password])
-      redirect_back_or_to root_url , :notice => "Logged in!"
+      redirect_to appointments_path, :notice => "Logged in!"
     else
       flash.now[:alert] = "Login failed"
       render action: "new"

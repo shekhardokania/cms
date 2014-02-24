@@ -4,6 +4,7 @@ class HomeController < ApplicationController
   end
 
   def index
+    @user = User.new
   end
 
   def faq
